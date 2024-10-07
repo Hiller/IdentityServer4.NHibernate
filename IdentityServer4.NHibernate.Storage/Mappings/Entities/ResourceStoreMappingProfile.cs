@@ -15,7 +15,11 @@ namespace IdentityServer4.NHibernate.Mappings.Entities
                 .ReverseMap();
 
             CreateMap<ApiResource, Models.ApiResource>(MemberList.Destination)
-                .ConstructUsing(src => new Models.ApiResource())
+#if NET6_0_OR_GREATER
+                 .ConstructUsing(src => new Models.ApiResource()) 
+#else
+                 .ConstructUsing(src => new Models.ApiResource())
+#endif
                 .ForMember(dst => dst.ApiSecrets, opt => opt.MapFrom(src => src.Secrets))
                 .ForMember(
                     dst => dst.AllowedAccessTokenSigningAlgorithms, 
@@ -26,7 +30,11 @@ namespace IdentityServer4.NHibernate.Mappings.Entities
                         opt => opt.ConvertUsing(AllowedSigningAlgorithmsConverter.Instance, src => src.AllowedAccessTokenSigningAlgorithms));
 
             CreateMap<ApiResourceClaim, string>()
-                .ConstructUsing(x => x.Type)
+#if NET6_0_OR_GREATER
+                 .ConstructUsing(x => x.Type) 
+#else
+                 .ConstructUsing(x => x.Type)
+#endif
                 .ReverseMap()
                     .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src));
 
@@ -35,17 +43,29 @@ namespace IdentityServer4.NHibernate.Mappings.Entities
                 .ReverseMap();
 
             CreateMap<ApiResourceScope, string>()
-                .ConstructUsing(src => src.Scope)
+#if NET6_0_OR_GREATER
+                 .ConstructUsing(src => src.Scope) 
+#else
+                 .ConstructUsing(src => src.Scope)
+#endif
                 .ReverseMap()
                     .ForMember(dst => dst.Scope, opt => opt.MapFrom(src => src));
 
             CreateMap<ApiScopeClaim, string>()
-                .ConstructUsing(src => src.Type)
+#if NET6_0_OR_GREATER
+                 .ConstructUsing(src => src.Type) 
+#else
+                 .ConstructUsing(src => src.Type)
+#endif
                 .ReverseMap()
                     .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src));
 
             CreateMap<ApiScope, Models.ApiScope>(MemberList.Destination)
-                .ConstructUsing(src => new Models.ApiScope())
+#if NET6_0_OR_GREATER
+                 .ConstructUsing(src => new Models.ApiScope()) 
+#else
+                 .ConstructUsing(src => new Models.ApiScope())
+#endif
                 .ForMember(dst => dst.Properties, opt => opt.MapFrom(src => src.Properties))
                 .ForMember(dst => dst.UserClaims, opt => opt.MapFrom(src => src.UserClaims))
                 .ReverseMap();
@@ -54,11 +74,19 @@ namespace IdentityServer4.NHibernate.Mappings.Entities
                 .ReverseMap();
 
             CreateMap<IdentityResource, Models.IdentityResource>(MemberList.Destination)
-                .ConstructUsing(src => new Models.IdentityResource())
+#if NET6_0_OR_GREATER
+                 .ConstructUsing(src => new Models.IdentityResource()) 
+#else
+                 .ConstructUsing(src => new Models.IdentityResource())
+#endif
                 .ReverseMap();
 
             CreateMap<IdentityResourceClaim, string>()
-                .ConstructUsing(src => src.Type)
+#if NET6_0_OR_GREATER
+                 .ConstructUsing(src => src.Type) 
+#else
+                 .ConstructUsing(src => src.Type)
+#endif
                 .ReverseMap()
                     .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src));
         }

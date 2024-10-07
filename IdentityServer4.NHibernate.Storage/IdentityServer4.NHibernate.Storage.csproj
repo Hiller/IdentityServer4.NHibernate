@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>IdentityServer4.NHibernate.Storage</AssemblyName>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
@@ -12,7 +12,7 @@
     <Product>IdentityServer4.NHibernate.Storage</Product>
     <PackageTags>OAuth2;OAuth 2.0;OpenID Connect;Security;Identity;IdentityServer;NHibernate</PackageTags>
     <RootNamespace>IdentityServer4.NHibernate</RootNamespace>
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <PackageLicenseUrl>https://licenses.nuget.org/Apache-2.0</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/albertodall/IdentityServer4.NHibernate</PackageProjectUrl>
     <RepositoryUrl>https://github.com/albertodall/IdentityServer4.NHibernate</RepositoryUrl>
@@ -22,18 +22,36 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <IsUnifiedNETVersion>$([MSBuild]::VersionGreaterThanOrEquals('$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)'))','6.0'))</IsUnifiedNETVersion>
+    <MessageText Condition="$(IsUnifiedNETVersion) == 'true'">$(TargetFramework) or Higher is beeing used</MessageText>
+    <MessageText Condition="$(IsUnifiedNETVersion) == 'false'">NET472 is beeing used</MessageText>
+  </PropertyGroup>
+  
+  <Target Name="MyTarget" AfterTargets="AfterBuild">
+    <Message Importance="High"  Condition="$(IsUnifiedNETVersion) == true" Text="IsNet6OrHigher = $(IsUnifiedNETVersion)" />
+    <Message Importance="High" Text="$(MessageText)" />
+  </Target>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'" >
+    <PackageReference Include="Automapper" Version="[13.0.0,)" />
+    <PackageReference Include="NHibernate" Version="5.5.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+  </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    
+    
+    
+    <PackageReference Condition="'$(TargetFramework)' == 'netcoreapp3.1'" Include="Automapper" Version="[10,11)" />
     <PackageReference Include="IdentityServer4.Storage" Version="4.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
+    <PackageReference Condition="'$(TargetFramework)' == 'netcoreapp3.1'"  Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.8" />
+    <PackageReference Condition="'$(TargetFramework)' == 'netcoreapp3.1'"  Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NHibernate" Version="5.3.11" />
+    <PackageReference Condition="'$(TargetFramework)' == 'netcoreapp3.1'" Include="NHibernate" Version="5.3.11" />
   </ItemGroup>
 
 </Project>
