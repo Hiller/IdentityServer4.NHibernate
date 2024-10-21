@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Version>3.0.1</Version>
+    <Version>3.0.0</Version>
     <Authors>Alberto Dallagiacoma</Authors>
     <Description>NHibernate persistence layer for IdentityServer4</Description>
     <PackageTags>OAuth2;OAuth 2.0;OpenID Connect;Security;Identity;IdentityServer;NHibernate</PackageTags>
